@@ -1,0 +1,9 @@
+name: C++ code linter and checker (clang-tidy and cppcheck)
+description: Automatically checks your repository with clang-tidy and cppcheck.
+author: Gregor Seljak
+branding:
+  icon: alert-circle
+  color: green
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
