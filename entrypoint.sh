@@ -1,8 +1,8 @@
 #!/bin/bash
 
-FILES = `ls -l`
+FILES=$(find -regex '.*/.*\.\(c\|cpp\|yml\)$')
 echo "Listing files in directory:"
 echo "$FILES"
 
 echo "Event path:"
-echo "$GITHUB_EVENT_PATH""
+echo "$GITHUB_EVENT_PATH"
