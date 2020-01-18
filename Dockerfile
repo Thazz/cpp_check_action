@@ -11,7 +11,8 @@ LABEL maintainer="Thazz <gregor.seljak@gmail.com>"
 WORKDIR /build
 RUN apt-get update
 RUN apt-get -qq -y install curl
-RUN apt-get -y -qq install clang-tidy cmake jq clang cppcheck
+RUN apt-get -qq -y install clang-tidy cmake jq clang cppcheck
+RUN apt-get -qq -y install git
 
 ADD entrypoint.sh /entrypoint.sh
 COPY . .
