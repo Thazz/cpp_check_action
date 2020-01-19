@@ -6,7 +6,7 @@ echo "command: git ls-files"
 git ls-files
 
 echo "command: git branch"
-gir branch
+git branch
 
 BRANCH=$(git rev-parse --abbrev-ref HEAD)
 echo "Branch name: $BRANCH"
