@@ -17,7 +17,7 @@ jq --raw-output .commits "$GITHUB_EVENT_PATH"
 
 echo ""
 echo "Run cppcheck on files"
-cppcheck --std=c++11 --output-file=$CPP_CHECK_OUTPUT --language=c++ --enable=all $REPO
+cppcheck --std=c++11 --output-file=$CPP_CHECK_OUTPUT --language=c++ --enable=all ./
 
 echo ""
 echo "Parse output by severity"
