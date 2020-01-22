@@ -12,15 +12,11 @@ CPP_CHECK_PERF="cppcheck.out.perf"
 CPP_CHECK_PORT="cppcheck.out.port"
 CPP_CHECK_INFO="cppcheck.out.info"
 
-echo "Parse event path"
-jq --raw-output .commits "$GITHUB_EVENT_PATH"
-
 echo ""
-echo "Run cppcheck on files"
+echo "::group::Run cppcheck on files"
 cppcheck --std=c++11 --output-file=$CPP_CHECK_OUTPUT --language=c++ --enable=all ./
+echo "::endgroup::"
 
-echo ""
-echo "Parse output by severity"
 grep '(error)' $CPP_CHECK_OUTPUT >$CPP_CHECK_ERROR || true
 grep '(warning)' $CPP_CHECK_OUTPUT >$CPP_CHECK_WARN || true
 grep '(style)' $CPP_CHECK_OUTPUT >$CPP_CHECK_STYLE || true
@@ -36,19 +32,23 @@ NUM_PORT=$(cat $CPP_CHECK_PORT | wc -l)
 NUM_INFO=$(cat $CPP_CHECK_INFO | wc -l)
 
 echo ""
-echo "cppcheck returned:"
+echo "::group::Cppcheck summary:"
 echo "  $NUM_ERROR errors"
 echo "  $NUM_WARN warnings"
 echo "  $NUM_STYLE style warnings"
 echo "  $NUM_PERF performance warnings"
 echo "  $NUM_PORT portability warnings"
 echo "  $NUM_INFO information messages"
+echo "::endgroup::"
 
 RS=0
 if [[ NUM_ERROR -gt 0 ]]; then
     echo ""
-    echo "Errors:"
-    awk '{printf "%d\t%s\n", NR, $0}' <$CPP_CHECK_ERROR
+    echo "[Error]Errors:"
+    while IFS= read -r line; do
+        echo "[Error]\t$line"
+    done <$CPP_CHECK_ERROR
+    #awk '{printf "%d\t%s\n", NR, $0}' <$CPP_CHECK_ERROR
     RS=1
 fi
 
