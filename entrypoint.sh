@@ -44,10 +44,11 @@ echo "::endgroup::"
 RS=0
 if [[ NUM_ERROR -gt 0 ]]; then
     echo ""
-    echo "::error::Errors:"
+    echo "::group::Errors:"
     while IFS= read -r line; do
         echo "::error::$line"
     done <$CPP_CHECK_ERROR
+    echo "::endgroup::"
     #awk '{printf "%d\t%s\n", NR, $0}' <$CPP_CHECK_ERROR
     RS=1
 fi
