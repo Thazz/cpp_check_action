@@ -44,7 +44,7 @@ echo "::endgroup::"
 RS=0
 if [[ NUM_ERROR -gt 0 ]]; then
     echo ""
-    echo "::group::Errors:"
+    echo "::group::::error::Errors:"
     while IFS= read -r line; do
         echo "::error::$line"
     done <$CPP_CHECK_ERROR
