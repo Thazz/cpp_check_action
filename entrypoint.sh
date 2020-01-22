@@ -8,6 +8,10 @@ function color_output() {
     echo -e "\e[${c}m$*\e[0m"
 }
 
+ANSI_RED=31
+ANSI_GREEN=32
+ANSI_YELLOW=33
+
 FAIL_ON_WARN=0
 FAIL_DUE_ERR=1
 FAIL_DUE_WARN=2
