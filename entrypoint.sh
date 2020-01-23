@@ -53,7 +53,8 @@ echo "::endgroup::"
 
 RS=0
 if [[ NUM_ERROR -gt 0 ]]; then
-    color_output $ANSI_RED "::group::Errors:"
+    #color_output $ANSI_RED "::group::Errors:"
+    echo -e "::group::\e[${ANSI_RED}m$*\e[0m"
     while IFS= read -r line; do
         echo "::error::$line"
     done <$CPP_CHECK_ERROR
@@ -99,7 +100,7 @@ if [[ $NUM_PORT -gt 0 ]]; then
 fi
 
 if [[ $NUM_INFO -gt 0 ]]; then
-    color_output $ANSI_GREEN "::group::Portability Warnings:"
+    color_output $ANSI_GREEN "::group::Information Messagess:"
     while IFS= read -r line; do
         echo "::warn::$line"
     done <$CPP_CHECK_INFO
