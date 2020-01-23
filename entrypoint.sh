@@ -14,14 +14,15 @@ function print_summary() {
     local MSG=$1
     local FILE=$2
     local COLOR=$3
+    local MOD=$4
     local NUM
 
-    NUM=$(wc -l "$FILE")
+    NUM=$(wc -l <"$FILE")
     local HEADER_MSG="$MSG ($NUM):"
 
     color_output "$HEADER_MSG" "$COLOR" "::group::"
     while IFS= read -r line; do
-        echo "::warn::$line"
+        echo "${MOD}$line"
     done <"$FILE"
     echo "::endgroup::"
 }
@@ -54,20 +55,20 @@ grep '(performance)' $CPP_CHECK_OUTPUT >$CPP_CHECK_PERF || true
 grep '(portability)' $CPP_CHECK_OUTPUT >$CPP_CHECK_PORT || true
 grep '(information)' $CPP_CHECK_OUTPUT >$CPP_CHECK_INFO || true
 
-print_summary "Errors" $CPP_CHECK_ERROR $ANSI_RED
-print_summary "Warnings" $CPP_CHECK_WARN $ANSI_YELLOW
-print_summary "Style Warnings" $CPP_CHECK_WARN $ANSI_YELLOW
-print_summary "Performance Warnings" $CPP_CHECK_WARN $ANSI_YELLOW
-print_summary "Portability Warnings" $CPP_CHECK_WARN $ANSI_YELLOW
-print_summary "Info Messages" $CPP_CHECK_INFO $ANSI_GREEN
+print_summary "Errors" $CPP_CHECK_ERROR $ANSI_RED "::error::"
+print_summary "Warnings" $CPP_CHECK_WARN $ANSI_YELLOW "::warning::"
+print_summary "Style Warnings" $CPP_CHECK_WARN $ANSI_YELLOW "::warning::"
+print_summary "Performance Warnings" $CPP_CHECK_WARN $ANSI_YELLOW "::warning::"
+print_summary "Portability Warnings" $CPP_CHECK_WARN $ANSI_YELLOW "::warning::"
+print_summary "Info Messages" $CPP_CHECK_INFO $ANSI_GREEN ""
 
 NUM_ERROR=$(wc -l <$CPP_CHECK_ERROR)
 NUM_WARN=$(wc -l <$CPP_CHECK_WARN)
 NUM_STYLE=$(wc -l <$CPP_CHECK_STYLE)
 NUM_PERF=$(wc -l <$CPP_CHECK_PERF)
 NUM_PORT=$(wc -l <$CPP_CHECK_PORT)
-# shellcheck(SC2086)
-NUM_TOTAL_WARN=$NUM_WARN + $NUM_STYLE + $NUM_PERF + $NUM_PORT
+
+let "NUM_TOTAL_WARN=$NUM_WARN + $NUM_STYLE + $NUM_PERF + $NUM_PORT"
 
 RS=0
 if [[ $NUM_ERROR -gt 0 ]]; then
