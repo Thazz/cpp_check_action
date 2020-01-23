@@ -54,7 +54,7 @@ echo "::endgroup::"
 RS=0
 if [[ NUM_ERROR -gt 0 ]]; then
     #color_output $ANSI_RED "::group::Errors:"
-    echo -e "::group::\e[${ANSI_RED}m$*\e[0m"
+    echo -e "::group::\e[${ANSI_RED}mErrors:\e[0m"
     while IFS= read -r line; do
         echo "::error::$line"
     done <$CPP_CHECK_ERROR
