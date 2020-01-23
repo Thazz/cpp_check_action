@@ -31,6 +31,8 @@ function print_summary() {
 ANSI_RED=31
 ANSI_GREEN=32
 ANSI_YELLOW=33
+ANSI_CYAN=36
+ANSI_WHITE=37
 
 # Treat warnings as error
 FAIL_ON_WARN=0
@@ -44,7 +46,7 @@ CPP_CHECK_PERF="cppcheck.out.perf"
 CPP_CHECK_PORT="cppcheck.out.port"
 CPP_CHECK_INFO="cppcheck.out.info"
 
-echo "::group::Run cppcheck"
+echo "::group::Running cppcheck ..."
 cppcheck --std=c++11 --output-file=$CPP_CHECK_OUTPUT --language=c++ --enable=all ./
 echo "::endgroup::"
 
@@ -55,12 +57,14 @@ grep '(performance)' $CPP_CHECK_OUTPUT >$CPP_CHECK_PERF || true
 grep '(portability)' $CPP_CHECK_OUTPUT >$CPP_CHECK_PORT || true
 grep '(information)' $CPP_CHECK_OUTPUT >$CPP_CHECK_INFO || true
 
+echo ""
+echo "Summary:"
 print_summary "Errors" $CPP_CHECK_ERROR $ANSI_RED "::error::"
 print_summary "Warnings" $CPP_CHECK_WARN $ANSI_YELLOW "::warning::"
 print_summary "Style Warnings" $CPP_CHECK_WARN $ANSI_YELLOW "::warning::"
 print_summary "Performance Warnings" $CPP_CHECK_WARN $ANSI_YELLOW "::warning::"
 print_summary "Portability Warnings" $CPP_CHECK_WARN $ANSI_YELLOW "::warning::"
-print_summary "Info Messages" $CPP_CHECK_INFO $ANSI_GREEN ""
+print_summary "Info Messages" $CPP_CHECK_INFO $ANSI_CYAN ""
 
 NUM_ERROR=$(wc -l <$CPP_CHECK_ERROR)
 NUM_WARN=$(wc -l <$CPP_CHECK_WARN)
@@ -71,14 +75,16 @@ NUM_PORT=$(wc -l <$CPP_CHECK_PORT)
 let "NUM_TOTAL_WARN=$NUM_WARN + $NUM_STYLE + $NUM_PERF + $NUM_PORT"
 
 RS=0
+echo ""
 if [[ $NUM_ERROR -gt 0 ]]; then
-    echo "::error::Check failed! Errors found."
+    color_output "Check failed! Errors found." "$ANSI_RED" ""
     RS=1
 elif [[ $FAIL_ON_WARN -ne 0 && $NUM_TOTAL_WARN -gt 0 ]]; then
-    echo "::error::Check failed! Warnings found which are treated as errors."
+    color_output "Check failed! Warnings found which are treated as errors." "$ANSI_RED" ""
     RS=1
 else
     echo "Check passed!"
+    color_output "Check passed!" "$ANSI_GREEN" ""
 fi
 
 exit $RS
