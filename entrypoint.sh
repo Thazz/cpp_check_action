@@ -32,7 +32,6 @@ ANSI_RED=31
 ANSI_GREEN=32
 ANSI_YELLOW=33
 ANSI_CYAN=36
-ANSI_WHITE=37
 
 # Treat warnings as error
 FAIL_ON_WARN=0
@@ -72,7 +71,7 @@ NUM_STYLE=$(wc -l <$CPP_CHECK_STYLE)
 NUM_PERF=$(wc -l <$CPP_CHECK_PERF)
 NUM_PORT=$(wc -l <$CPP_CHECK_PORT)
 
-let "NUM_TOTAL_WARN=$NUM_WARN + $NUM_STYLE + $NUM_PERF + $NUM_PORT"
+NUM_TOTAL_WARN=$((NUM_WARN + NUM_STYLE + NUM_PERF + NUM_PORT))
 
 RS=0
 echo ""
@@ -83,7 +82,6 @@ elif [[ $FAIL_ON_WARN -ne 0 && $NUM_TOTAL_WARN -gt 0 ]]; then
     color_output "Check failed! Warnings found which are treated as errors." "$ANSI_RED" ""
     RS=1
 else
-    echo "Check passed!"
     color_output "Check passed!" "$ANSI_GREEN" ""
 fi
 
