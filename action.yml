@@ -7,3 +7,12 @@ branding:
 runs:
   using: "docker"
   image: "Dockerfile"
+inputs:
+  pedantic:
+    description: "If set to 1, warnings are treated as errors. Default value is 0"
+    required: false
+    default: "0"
+  fileList:
+    description: "List of files to check. If not set, all source files are checked"
+    required: false
+    default: "./*"
