@@ -15,7 +15,7 @@ inputs:
   files:
     description: "List of files to check. If not set, all source files are checked."
     required: false
-    default: "./*"
+    default: "./"
   check_std:
     description: "value of --std argument for cppcheck. Default value is c++14."
     required: false
