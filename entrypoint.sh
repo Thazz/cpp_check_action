@@ -35,6 +35,10 @@ ANSI_CYAN=36
 
 # Treat warnings as error
 FAIL_ON_WARN=0
+echo "Pedantic variable is $PEDANTIC"
+if [[ $PEDANTIC -eq 1 ]]; then
+    FAIL_ON_WARN=1
+fi
 
 # Files for parsing output
 CPP_CHECK_OUTPUT="cppcheck.out"
