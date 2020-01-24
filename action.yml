@@ -13,6 +13,22 @@ inputs:
     required: false
     default: "0"
   files:
-    description: "List of files to check. If not set, all source files are checked"
+    description: "List of files to check. If not set, all source files are checked."
     required: false
     default: "./*"
+  check_std:
+    description: "value of --std argument for cppcheck. Default value is c++14."
+    required: false
+    default: "c++14"
+  check_lang:
+    description: "value of --language argument for cppcheck. Default value is c++."
+    required: false
+    default: "c++"
+  check_enable:
+    description: "value of --enable argument for cppcheck. Default value is all."
+    required: false
+    default: "all"
+  check_extra_args:
+    description: "Extra arguments for cppcheck. Default value is empty string."
+    required: false
+    default: ""

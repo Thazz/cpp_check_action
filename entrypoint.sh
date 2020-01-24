@@ -33,13 +33,6 @@ ANSI_GREEN=32
 ANSI_YELLOW=33
 ANSI_CYAN=36
 
-echo "pedantic: $INPUT_PEDANTIC"
-echo "file list: $INPUT_FILES"
-
-# Treat warnings as error
-#shellcheck(SC2154)
-FAIL_ON_WARN=$INPUT_PEDANTIC
-
 # Files for parsing output
 CPP_CHECK_OUTPUT="cppcheck.out"
 CPP_CHECK_ERROR="cppcheck.out.error"
@@ -50,7 +43,7 @@ CPP_CHECK_PORT="cppcheck.out.port"
 CPP_CHECK_INFO="cppcheck.out.info"
 
 echo "::group::Running cppcheck ..."
-cppcheck --std=c++11 --output-file=$CPP_CHECK_OUTPUT --language=c++ --enable=all ./
+cppcheck --std="$INPUT_CHECK_STD" --language="$INPUT_CHECK_LANG" --enable="$INPUT_CHECK_ENABLE" "$INPUT_CHECK_EXTRA_ARGS" --output-file=$CPP_CHECK_OUTPUT "$INPUT_FILES"
 echo "::endgroup::"
 
 grep '(error)' $CPP_CHECK_OUTPUT >$CPP_CHECK_ERROR || true
@@ -82,7 +75,7 @@ echo ""
 if [[ $NUM_ERROR -gt 0 ]]; then
     color_output "Check failed! Errors found." "$ANSI_RED" ""
     RS=1
-elif [[ $FAIL_ON_WARN -ne 0 && $NUM_TOTAL_WARN -gt 0 ]]; then
+elif [[ $INPUT_PEDANTIC -ne 0 && $NUM_TOTAL_WARN -gt 0 ]]; then
     color_output "Check failed! Warnings found which are treated as errors." "$ANSI_RED" ""
     RS=1
 else
