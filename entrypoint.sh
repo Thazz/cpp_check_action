@@ -60,9 +60,9 @@ echo ""
 echo "Summary:"
 print_summary "Errors" $CPP_CHECK_ERROR $ANSI_RED "::error::"
 print_summary "Warnings" $CPP_CHECK_WARN $ANSI_YELLOW "::warning::"
-print_summary "Style Warnings" $CPP_CHECK_WARN $ANSI_YELLOW "::warning::"
-print_summary "Performance Warnings" $CPP_CHECK_WARN $ANSI_YELLOW "::warning::"
-print_summary "Portability Warnings" $CPP_CHECK_WARN $ANSI_YELLOW "::warning::"
+print_summary "Style Warnings" $CPP_CHECK_STYLE $ANSI_YELLOW "::warning::"
+print_summary "Performance Warnings" $CPP_CHECK_PERF $ANSI_YELLOW "::warning::"
+print_summary "Portability Warnings" $CPP_CHECK_PORT $ANSI_YELLOW "::warning::"
 print_summary "Info Messages" $CPP_CHECK_INFO $ANSI_CYAN ""
 
 NUM_ERROR=$(wc -l <$CPP_CHECK_ERROR)
