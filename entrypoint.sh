@@ -33,12 +33,12 @@ ANSI_GREEN=32
 ANSI_YELLOW=33
 ANSI_CYAN=36
 
-echo "pedantic: $pedantic"
-echo "file list: $fileList"
+echo "pedantic: $INPUT_PEDANTIC"
+echo "file list: $INPUT_FILES"
 
 # Treat warnings as error
 #shellcheck(SC2154)
-FAIL_ON_WARN=$pedantic
+FAIL_ON_WARN=$INPUT_PEDANTIC
 
 # Files for parsing output
 CPP_CHECK_OUTPUT="cppcheck.out"
