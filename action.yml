@@ -2,7 +2,7 @@ name: C++ code checker using cppcheck
 description: Automatically checks your repository with cppcheck.
 author: Gregor Seljak
 branding:
-  icon: alert-circle
+  icon: check-circle
   color: green
 runs:
   using: "docker"
